@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,10 +12,18 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
+            background-color: #667eea; /* Fallback */
+            background-image: linear-gradient(to bottom right, #667eea, #764ba2);
         }
-        @keyframes move {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
-            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+        @keyframes animateLines {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
         }
     </style>
 <script type="importmap">

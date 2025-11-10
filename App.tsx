@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { User, Project, GamificationState } from './types';
 import { ACHIEVEMENTS } from './constants';
@@ -7,35 +6,33 @@ import MainApp from './components/MainApp';
 import AchievementNotification from './components/AchievementNotification';
 
 const AnimatedBackground: React.FC = () => {
-    const particles = [
-        { left: '25%', width: 80, height: 80, delay: '0s', duration: '25s' },
-        { left: '10%', width: 20, height: 20, delay: '2s', duration: '12s' },
-        { left: '70%', width: 20, height: 20, delay: '4s', duration: '25s' },
-        { left: '40%', width: 60, height: 60, delay: '0s', duration: '18s' },
-        { left: '65%', width: 20, height: 20, delay: '0s', duration: '25s' },
-        { left: '75%', width: 110, height: 110, delay: '3s', duration: '25s' },
-        { left: '35%', width: 150, height: 150, delay: '7s', duration: '25s' },
-        { left: '50%', width: 25, height: 25, delay: '15s', duration: '45s' },
-        { left: '20%', width: 15, height: 15, delay: '2s', duration: '35s' },
-        { left: '85%', width: 150, height: 150, delay: '0s', duration: '11s' },
-    ];
+    // Generate a set of lines for a more thematic "digital city" background
+    const lines = Array.from({ length: 50 }).map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      width: `${Math.random() * 3 + 1}px`,
+      height: `${Math.random() * 40 + 20}vh`, // Use viewport height for responsiveness
+      delay: `${Math.random() * 10}s`,
+      duration: `${Math.random() * 20 + 15}s`,
+      opacity: Math.random() * 0.5 + 0.1, // Varied opacity
+    }));
+  
     return (
-        <div className="bg-animation fixed top-0 left-0 w-full h-full z-[-1] overflow-hidden">
-            {particles.map((p, i) => (
-                <span
-                    key={i}
-                    className="absolute block bg-white/10 animate-[move_25s_linear_infinite] bottom-[-150px]"
-                    style={{
-                        left: p.left,
-                        width: `${p.width}px`,
-                        height: `${p.height}px`,
-                        animationDelay: p.delay,
-                        animationName: 'move',
-                        animationDuration: p.duration,
-                    }}
-                ></span>
-            ))}
-        </div>
+      <div className="lines fixed top-0 left-0 w-full h-full z-0 overflow-hidden">
+        {lines.map(line => (
+          <div
+            key={line.id}
+            className="absolute bottom-0 bg-gradient-to-t from-white/20 to-transparent"
+            style={{
+              left: line.left,
+              width: line.width,
+              height: line.height,
+              opacity: line.opacity,
+              animation: `animateLines ${line.duration} linear ${line.delay} infinite`,
+            }}
+          ></div>
+        ))}
+      </div>
     );
 };
 
@@ -98,23 +95,28 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#667eea] to-[#764ba2] text-white flex justify-center items-center p-4">
+        <div className="min-h-screen text-white flex flex-col p-4 relative isolate">
             <AnimatedBackground />
-            <div className="container w-full max-w-4xl">
-                {user ? (
-                    <MainApp
-                        user={user}
-                        project={project}
-                        setProject={setProject}
-                        gamification={gamification}
-                        setGamification={setGamification}
-                        addXP={addXP}
-                        unlockBadge={unlockBadge}
-                    />
-                ) : (
-                    <RegistrationScreen onRegister={handleRegister} />
-                )}
-            </div>
+            <main className="flex-grow flex justify-center items-center w-full z-10">
+                <div className="container w-full max-w-4xl">
+                    {user ? (
+                        <MainApp
+                            user={user}
+                            project={project}
+                            setProject={setProject}
+                            gamification={gamification}
+                            setGamification={setGamification}
+                            addXP={addXP}
+                            unlockBadge={unlockBadge}
+                        />
+                    ) : (
+                        <RegistrationScreen onRegister={handleRegister} />
+                    )}
+                </div>
+            </main>
+            <footer className="w-full text-center py-4 shrink-0 z-10">
+                <p className="font-bold text-sm text-white/70">Creado por Christian Núñez V., Asesor Pedagógico, Programa CTA-PACE. 2025.</p>
+            </footer>
             {lastUnlockedBadgeName && (
                 <AchievementNotification
                     badgeName={lastUnlockedBadgeName}
