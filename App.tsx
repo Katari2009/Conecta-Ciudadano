@@ -115,7 +115,7 @@ const App: React.FC = () => {
                 </div>
             </main>
             <footer className="w-full text-center py-4 shrink-0 z-10">
-                <p className="font-bold text-sm text-white/70">Creado por Christian Núñez V., Asesor Pedagógico, Programa CTA-PACE. 2025.</p>
+                <p className="font-bold text-sm text-white/70">Creado por Christian Núñez V., Asesor Pedagógico, Programa PACE-UDA, 2025.</p>
             </footer>
             {lastUnlockedBadgeName && (
                 <AchievementNotification
